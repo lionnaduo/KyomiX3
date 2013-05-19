@@ -1,0 +1,114 @@
+];
+   var num = 0;
+     var i = 0;
+	 var j = 1;
+     var jing;
+     var wei;
+   
+   function getPlaceFromFlickr(lat,lon,callback){
+     // the YQL statement
+      var yql = 'select * from flickr.places where lat='+lat+' and api_key="bb3ac0e8a4b90794e86114eb9f87a5d6" and lon='+lon;
+  
+     // assembling the YQL webservice API
+      var url = 'http://query.yahooapis.com/v1/public/yql?q='+
+                encodeURIComponent(yql)+'&format=json&diagnostics='+
+                'false&callback='+callback;
+ 
+    // create a new script node and add it to the document
+     var s = document.createElement('script');
+    s.setAttribute('src',url);
+    document.getElementsByTagName('head')[0].appendChild(s);
+  };
+ 
+  // callback in case there is a place found
+   function output(o){
+    if(typeof(o.query.results.places.place) != 'undefined'){
+		//alert(o.query.results.places.place.name);
+		//result.push(o.query.results.places.place.name);
+		input[j][3] = o.query.results.places.place.name;
+		j = j+1;
+    }
+	else 
+	{
+		// alert("not defined!");
+		input[j][3] = "Unknown!";
+		j = j+1;
+	}
+  } 
+  // call the function with my current lat/lon
+ // jing = 31.416115;
+ // wei = 107.52456;
+ // getPlaceFromFlickr(jing,wei,'output');
+  
+  num = input.length;
+  i = 1;
+/*  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+    i = 2;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+    i = 3;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+    i = 4;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+    i = 5;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+    i = 6;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+    i = 7;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+    i = 8;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+    i = 9;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');  
+  i = 10;
+  jing = input[i][1];
+  wei =  input[i][2];//alert(jing+" "+wei);
+  getPlaceFromFlickr(jing,wei,'output');
+*/
+  while(i<num)
+  {
+  jing = input[i][1];
+  wei =  input[i][2];
+  //alert(jing+" "+wei);
+ getPlaceFromFlickr(jing,wei,'output');
+  i = i+1;
+  }
+  
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(input);
+
+        var options = {
+          title: '芦山地震区手持移动设备分布区域数量图',
+          hAxis: {title: '纬度（精确到小数点后五位）'},
+          vAxis: {title: '经度（精确到小数点后五位）'},
+          bubble: {textStyle: {fontSize: 11}}
+        };
+
+        var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
